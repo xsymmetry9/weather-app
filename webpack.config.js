@@ -9,7 +9,7 @@ module.exports = {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
         assetModuleFilename: 'images/[name][ext][query]',
-        // clean: true,
+        clean: true,
     },
     devServer: {
         static: {
@@ -24,19 +24,19 @@ module.exports = {
     module:{
         rules:[
             {
-                test: /\.css$/i,
-                use: ['style-loader', 'css-loader'],
-            },
-            {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: 'asset/resource',
-            },
-            {
-                test: /\.(woff|woff2)$/i,
-                type: 'asset/resource',
-                generator:{
-                    filename: 'fonts/[name][ext][query]'
+                test:/\.js$/i,
+                include: path.resolve(__dirname, 'src'),
+                use:{
+                    loader: 'babel-loader',
+                    options:{
+                        presets: ['@babel/preset-env'],
+                    },
                 },
+            },
+            {
+                test: /\.css$/i,
+                include: path.resolve(__dirname, 'src'),
+                use: ['style-loader', 'css-loader', 'postcss-loader'],
             },
         ],
     },
